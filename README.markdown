@@ -51,7 +51,7 @@ A servlet generates and serves a JavaScript file for classes defined with init p
     &lt;!-- required: path to the JSX-RS servlet --&gt;
     &lt;init-param&gt;
         &lt;param-name&gt;jaxrs.servlet.path&lt;/param-name&gt;
-        &lt;param-value&gt;/resources&lt;/param-value&gt;
+        &lt;param-value&gt;<strong>/resources</strong>&lt;/param-value&gt;
     &lt;/init-param&gt;
     &lt;init-param&gt;
         &lt;param-name&gt;library.default&lt;/param-name&gt;
