@@ -1,6 +1,8 @@
 What is jax-rs-js?
 =================================
-jax-rs-js aim to help accessing JAX-RS annotated services from within a browser application. jax-rs-js is shipped with a Servlet to be included in a web application and to serve JavaScript files for JAX-RS services:
+jax-rs-js aims to help accessing JAX-RS annotated services from within a browser application. Complete coverage of JAX-RS features is not a goal of jax-rs-js. Instead some common and straightforward patterns are covered. See <code>ch.mbae.notes.services.NotesService</code> in the test source directory to see whats currently covered.   
+
+jax-rs-js is shipped with a Servlet to be included in a web application and to serve JavaScript files for JAX-RS services:
 
 <pre><code>@POST
 @Produces(MediaType.APPLICATION_JSON)
