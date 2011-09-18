@@ -24,4 +24,12 @@ is called in JavaScript like this:
 
 Build and install
 ==================================
-jax-rs-jsx
+<pre><code>mvn clean install</code></pre>
+
+<pre><code>
+      &lt;dependency&gt;
+            &lt;groupId&gt;ch.mbae&lt;/groupId&gt;
+            &lt;artifactId&gt;jax-rs-js&lt;/artifactId&gt;
+            &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+        &lt;/dependency&gt;
+</code></pre>
