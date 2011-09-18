@@ -69,5 +69,14 @@ A servlet generates and serves a JavaScript file for classes defined with init p
 Include JavaScript in the HTML page
 ---------------------------------
 <pre><code>&lt;script src="&lt;%= request.getContextPath() %&gt;/resources-js/"&gt; &lt;/script&gt;
+
+<script>
+$(function() {
+  jaxjs.services.NotesService.getAll(function(notes) {
+     // render notes...
+  });
+);
+</script>
+
 </code></pre>
 
