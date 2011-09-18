@@ -13,8 +13,8 @@ is called in JavaScript like this:
 
 <pre><code>jaxjs.services.NotesService.addNote(
   {
-    title: "a<b>öäü</b>dd note 99",
-    note: "a note added"
+    title: "Sample note",
+    note: "push changes on github"
   },
   function(note) {
     // do something
