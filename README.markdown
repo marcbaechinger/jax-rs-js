@@ -25,6 +25,7 @@ is called in JavaScript like this:
   }
 );</code></pre>
 
+See https://github.com/marcbaechinger/jax-rs-js-web for a working example (integration tests).
 
 Build and install
 ==================================
