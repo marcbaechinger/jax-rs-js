@@ -1,0 +1,113 @@
+(function(global) {
+    if (typeof global.jaxjs === 'undefined') global.jaxjs = {};
+    if (typeof global.jaxjs.services === 'undefined') global.jaxjs.services = {};
+    var util = {
+        /**
+         * default error handler handels failed remote calls if not other excpetion handlers
+         * are registered.
+         */
+        defaultErrorHandler: function() {
+            if (console && console.error) {
+                console.error("jax-rs-js error: " , arguments);
+            }
+        },
+        /**
+         * extracts the data array from the json <code>data</code> sent by JAX-RS. JAX-RS creates a single property
+         * and assignes the array of object to it. The extractor hence gets the data from that single property.
+         */
+        arrayResponseExtractor: function(data) {
+            var name;
+            for (name in data) {
+                return data[name];
+            }
+        },
+        /**
+         * calls the server according to the configuration
+         */
+        callRemote: function(config) {
+            var ajaxConfig = {
+                type: config.type || "GET",
+                url: config.path,
+                dataType: "json",
+                error: util.defaultErrorHandler,
+                success: function(data) {
+                    var name;
+                    if (config.callback) {          
+                        if (config.responseExtractor) {
+                            config.callback(config.responseExtractor(data));
+                        } else {
+                            config.callback(data); 
+                        }
+                    }
+                }
+            }, uploadData;
+
+            if (config.error) {
+                ajaxConfig.error = config.error;
+            }
+            // append request body if data has to be sent (JSON only)
+            if (config.data) {
+                ajaxConfig.contentType = "application/json";
+                if (config.outboundJsonPropertyName) {
+                    uploadData = {};
+                    uploadData[config.outboundJsonPropertyName] = config.data;
+                } else {
+                    uploadData = config.data;
+                }
+                ajaxConfig.data = JSON.stringify(uploadData);
+            }
+            $.ajax(ajaxConfig);
+        }
+    };
+#foreach($service in $services)       
+    var $service.getName() = function(path) {
+        var globalErrorHandler;
+        this.setGlobalErrorHandler = function(errorHandler) {
+            globalErrorHandler = errorHandler;
+        };
+#foreach($method in $service.getMethods())
+#if ($method.pathParameters.size() > 0)            
+        this.$method.getName() = function(#foreach ($pp in $method.pathParameters) $pp, #end #if($method.jsonParameter) data,#end callback, errorHandler) {
+#else           
+        this.$method.getName() = function(#if($method.jsonParameter) data,#end callback, errorHandler) {
+#end
+#if ($method.path)
+            var methodPath = path + "$method.path";
+#else
+            var methodPath = path;
+#end
+#if ($method.pathParameters.size() > 0)
+#foreach ($pp in $method.pathParameters) 
+            methodPath = methodPath.replace(/\{$pp\}/, encodeURIComponent($pp));
+#end
+#end
+#if ($method.jsonParameter)
+            util.callRemote({
+                type: '$method.httpVerb', 
+                data: data,  
+                callback: callback,
+                error: errorHandler || globalErrorHandler, 
+                path: methodPath#if ($method.returnType == 'Collection'),
+                responseExtractor: util.arrayResponseExtractor
+#end#if ($method.payloadPropertyName), 
+                outboundJsonPropertyName: "${method.payloadPropertyName}"
+#end
+            });
+#else
+            util.callRemote({
+                type: '$method.httpVerb', 
+                callback: callback, 
+                error: errorHandler || globalErrorHandler, 
+                path: methodPath#if ($method.returnType == 'Collection'), 
+                responseExtractor: util.arrayResponseExtractor
+#end#if ($method.payloadPropertyName), 
+                outboundJsonPropertyName: "${method.payloadPropertyName}"
+#end
+            });
+#end 
+        };
+#end
+    };
+    global.jaxjs.services.$service.name = new $service.name ("$contextPath$servletPath${service.path}");
+#end
+}(this));
