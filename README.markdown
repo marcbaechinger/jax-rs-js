@@ -56,7 +56,7 @@ A servlet generates and serves a JavaScript file for classes defined with init p
     &lt;init-param&gt;
         &lt;param-name&gt;library.default&lt;/param-name&gt;
         &lt;param-value&gt;
-            ch.mbae.notes.services.NotesService
+            <strong>ch.mbae.notes.services.NotesService</strong>
         &lt;/param-value&gt;
     &lt;/init-param&gt;
 &lt;/servlet&gt;
@@ -70,13 +70,13 @@ Include JavaScript in the HTML page
 ---------------------------------
 <pre><code>&lt;script src="&lt;%= request.getContextPath() %&gt;/resources-js/"&gt; &lt;/script&gt;
 
-<script>
+&lt;script&gt;
 $(function() {
   jaxjs.services.NotesService.getAll(function(notes) {
      // render notes...
   });
 );
-</script>
+&lt;/script&gt;
 
 </code></pre>
 
