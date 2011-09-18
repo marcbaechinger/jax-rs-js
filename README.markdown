@@ -30,15 +30,14 @@ Build with maven
 
 Include dependency in your pom.xml
 
-<pre><code>
-&lt;dependency&gt;
+<pre><code>&lt;dependency&gt;
   &lt;groupId&gt;ch.mbae&lt;/groupId&gt;
   &lt;artifactId&gt;jax-rs-js&lt;/artifactId&gt;
   &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;
 </code></pre>
 
-or copy jax-rs-js-1.0-SNAPSHOT.jar to your environment.
+or copy <code>jax-rs-js-1.0-SNAPSHOT.jar</code> to your environment.
 
 Servlet configuration in  web.xml
 ---------------------------------
