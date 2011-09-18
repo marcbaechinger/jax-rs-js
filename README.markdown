@@ -60,8 +60,12 @@ A servlet generates and serves a JavaScript file for classes defined with init p
     &lt;init-param&gt;
         &lt;param-name&gt;library.default&lt;/param-name&gt;
         &lt;param-value&gt;
-            <strong>ch.mbae.notes.services.NotesService</strong>
+            <strong>ch.mbae.notes.services.NotesService, com.foo.services.BarService</strong>
         &lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;config.minification&lt;/param-name&gt;
+        &lt;param-value&gt;false&lt;/param-value&gt;
     &lt;/init-param&gt;
 &lt;/servlet&gt;
 &lt;servlet-mapping&gt;
