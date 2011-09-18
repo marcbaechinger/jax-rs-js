@@ -19,7 +19,7 @@ is called in JavaScript like this:
     note: "push changes on github"
   },
   function(note) {
-    // do something
+    // do something with service response in callback function
   }
 );</code></pre>
 
