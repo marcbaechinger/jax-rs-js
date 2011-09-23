@@ -4,7 +4,7 @@
  */
 package ch.mbae.jaxjs.model;
 
-import ch.mbae.jaxjs.model.ReturnType;
+import ch.mbae.jaxjs.model.Cardinality;
 import ch.mbae.jaxjs.model.ServiceMethodModel;
 import ch.mbae.jaxjs.model.HttpVerb;
 import junit.framework.Assert;
@@ -45,10 +45,10 @@ public class ServiceMethodModelTest {
     
     @Test
     public void setReturnType() {
-        methodDesc.setReturnType(ReturnType.Collection);
-        Assert.assertEquals(ReturnType.Collection, methodDesc.getReturnType());
+        methodDesc.setReturnType(Cardinality.Collection);
+        Assert.assertEquals(Cardinality.Collection, methodDesc.getReturnType());
         
-        methodDesc.setReturnType(ReturnType.Object);
-        Assert.assertEquals(ReturnType.Object, methodDesc.getReturnType());
+        methodDesc.setReturnType(Cardinality.Object);
+        Assert.assertEquals(Cardinality.Object, methodDesc.getReturnType());
     }
 }

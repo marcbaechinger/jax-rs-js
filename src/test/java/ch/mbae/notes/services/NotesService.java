@@ -119,4 +119,11 @@ public class NotesService {
     public Note removeNote(@PathParam("id") String id) {
         return new Note(Long.valueOf(id), "Test " + id, "Test " + id + " ----");
     }
+    
+    @PUT
+    @Path("/user/{username:[a-z]}/comment/{commentId:[a-zA-Z][_a-zA-Z]$}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser(@PathParam("username") String username, @PathParam("commentId") String commentId) {
+        return new User();
+    }
 }

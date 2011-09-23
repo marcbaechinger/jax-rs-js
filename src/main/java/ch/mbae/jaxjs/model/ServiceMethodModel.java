@@ -9,13 +9,15 @@ import java.util.List;
  */
 public class ServiceMethodModel {
     private String name;
-    private ReturnType returnType;
+    private Cardinality returnType;
+    private Cardinality jsonParamCardinality;
     private String jsonParameter;
     private Class jsonParameterType;
     private List<String> pathParameters = new ArrayList<String>();
     
     private HttpVerb httpVerb;
     private String path;
+    private List<PathVariable> vars;
 
 
     public List<String> getPathParameters() {
@@ -67,6 +69,14 @@ public class ServiceMethodModel {
         this.jsonParameterType = jsonParameterType;
     }
 
+    public Cardinality getJsonParamCardinality() {
+        return jsonParamCardinality;
+    }
+
+    public void setJsonParamCardinality(Cardinality jsonParamateCardinality) {
+        this.jsonParamCardinality = jsonParamateCardinality;
+    }
+
     public String getName() {
         return name;
     }
@@ -75,16 +85,18 @@ public class ServiceMethodModel {
         this.name = name;
     }
 
-    public ReturnType getReturnType() {
+    public Cardinality getReturnType() {
         return returnType;
     }
 
-    public void setReturnType(ReturnType returnType) {
+    public void setReturnType(Cardinality returnType) {
         this.returnType = returnType;
     }
     
     public String getPayloadPropertyName() {
-        return this.jsonParameterType != null ? derivePropertyNameFromType(jsonParameterType) : null;
+        return this.jsonParameterType != null &&
+               Cardinality.Collection.equals(jsonParamCardinality) ? 
+               derivePropertyNameFromType(jsonParameterType) : null;
     }
     
     
@@ -95,5 +107,9 @@ public class ServiceMethodModel {
         String payloadPropertyName = type.getSimpleName().substring(0, 1).toLowerCase();
         payloadPropertyName += type.getSimpleName().substring(1);
         return payloadPropertyName;
+    }
+
+    public void setPathVariables(List<PathVariable> vars) {
+        this.vars = vars;
     }
 }

@@ -1,5 +1,6 @@
 package ch.mbae.jaxjs.engine;
 
+import ch.mbae.jaxjs.model.PathVariableParser;
 import ch.mbae.jaxjs.model.ServiceMethodModelBuilder;
 import ch.mbae.jaxjs.model.ServiceModelBuilder;
 import junit.framework.Assert;
@@ -23,7 +24,7 @@ public class EngineTest {
 
     @Before
     public void setUp() {
-        this.engine = new Engine(new ServiceModelBuilder(new ServiceMethodModelBuilder()));
+        this.engine = new Engine(new ServiceModelBuilder(new ServiceMethodModelBuilder(new PathVariableParser())));
         engine.setJAXRSServletPath("/resources");
         engine.setContextPath("");
     }
@@ -32,7 +33,7 @@ public class EngineTest {
     public void generate() throws Exception {
 
         String js = engine.generateJavaScriptServices(SERVICE_CLASSES);
-        // System.out.println(js);
+        System.out.println(js);
         Assert.assertNotNull(js);
         Assert.assertTrue("constructor of AddressService not found", js.contains("var AddressService = function(path) {"));
         Assert.assertTrue("constructor of ContactsResource not found", js.contains("var ContactsResource = function(path) {"));

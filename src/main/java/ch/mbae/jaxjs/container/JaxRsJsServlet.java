@@ -2,6 +2,7 @@ package ch.mbae.jaxjs.container;
 
 import ch.mbae.jaxjs.compressor.Minificator;
 import ch.mbae.jaxjs.engine.Engine;
+import ch.mbae.jaxjs.model.PathVariableParser;
 import ch.mbae.jaxjs.model.ServiceMethodModelBuilder;
 import ch.mbae.jaxjs.model.ServiceModelBuilder;
 import java.io.IOException;
@@ -66,7 +67,7 @@ public class JaxRsJsServlet extends HttpServlet {
     public JaxRsJsServlet() {
         minificator = new Minificator();
         // create template engine once
-        engine = new Engine(new ServiceModelBuilder(new ServiceMethodModelBuilder()));
+        engine = new Engine(new ServiceModelBuilder(new ServiceMethodModelBuilder(new PathVariableParser())));
         
         
     }

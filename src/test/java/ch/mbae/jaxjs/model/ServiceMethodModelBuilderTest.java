@@ -5,6 +5,7 @@
 package ch.mbae.jaxjs.model;
 
 import ch.mbae.jaxjs.annotations.Type;
+import ch.mbae.notes.services.User;
 import static org.junit.Assert.*;
 
 import ch.mbae.services.Contact;
@@ -28,7 +29,7 @@ public class ServiceMethodModelBuilderTest {
 
     @Before
     public void init() {
-        builder = new ServiceMethodModelBuilder();
+        builder = new ServiceMethodModelBuilder(new PathVariableParser());
     }
     
     @Test
@@ -41,10 +42,11 @@ public class ServiceMethodModelBuilderTest {
         Assert.assertEquals(HttpVerb.PUT, model.getHttpVerb());
         Assert.assertEquals("data", model.getJsonParameter());
         Assert.assertEquals(Contact.class, model.getJsonParameterType());
-        Assert.assertEquals(ReturnType.Object, model.getReturnType());
+        Assert.assertEquals(Cardinality.Object, model.getReturnType());
         Assert.assertEquals("update", model.getName());
         Assert.assertEquals("/{id}/comments/{commentId}", model.getPath());
         Assert.assertEquals(2, model.getPathParameters().size());
+        Assert.assertNull(model.getPayloadPropertyName());
     }
     
     @Test
@@ -58,12 +60,13 @@ public class ServiceMethodModelBuilderTest {
         Assert.assertEquals(HttpVerb.POST, model.getHttpVerb());
         Assert.assertEquals("data", model.getJsonParameter());
         Assert.assertEquals(Contact.class, model.getJsonParameterType());
-        Assert.assertEquals(ReturnType.Object, model.getReturnType());
+        Assert.assertEquals(Cardinality.Object, model.getReturnType());
         Assert.assertEquals("contact", model.getPayloadPropertyName());
+        Assert.assertNotNull(model.getPayloadPropertyName());
     }
     
     @Test
-    public void buildMethodModelForUpdateArrayMethod() {
+    public void buildMethodModelForCustomeRegExp() {
         ServiceMethodModel model = builder.buildMethodModel
                 (getMethod("updateArray"), null);
         
@@ -73,13 +76,37 @@ public class ServiceMethodModelBuilderTest {
         Assert.assertEquals(HttpVerb.DELETE, model.getHttpVerb());
         Assert.assertEquals("data", model.getJsonParameter());
         Assert.assertEquals(Contact.class, model.getJsonParameterType());
-        Assert.assertEquals(ReturnType.Collection, model.getReturnType());
+        Assert.assertEquals(Cardinality.Collection, model.getReturnType());
         Assert.assertEquals("contact", model.getPayloadPropertyName());
+    }
+    
+    
+    @Test
+    public void buildMethodModelForUpdateArrayMethod() {
+        ServiceMethodModel model = builder.buildMethodModel
+                (getMethod("getUser"), null);
+        
+        assertNotNull(model);
+        
+        Assert.assertEquals("getUser", model.getName());
+        Assert.assertEquals(HttpVerb.PUT, model.getHttpVerb());
+        Assert.assertNull("JSON parameter expected to be null", model.getJsonParameter());
+        Assert.assertNull("JSON paramter type expected to be null", model.getJsonParameterType());
+        Assert.assertEquals(Cardinality.Object, model.getReturnType());
+        Assert.assertNull("payload property expected to be null", model.getPayloadPropertyName());
+        Assert.assertEquals(1, model.getPathParameters().size());
+        Assert.assertEquals("username", model.getPathParameters().get(0));
     }
     
     @PUT
     @Path("/{id}/comments/{commentId}")
     public Contact update(@PathParam("id") Long id, @PathParam("commentId") Long commentId, Contact contact) {
+        return null;
+    }
+    
+    @PUT
+    @Path("/user/{username:[a-zA-Z]}")
+    public User getUser(@PathParam("username") Long id) {
         return null;
     }
     
